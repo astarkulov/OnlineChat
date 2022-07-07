@@ -5,38 +5,106 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        /**
+        * Высота основного блока фиксированная
+        * Flexbox с позиционированием контента внизу блока
+        */
+        .wrap_Scrollbottom {
+            width: 600px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            border: 1px solid #b9b9b9;
+            position: relative;
+        }
+
+        /**
+        * Максимальная высота этого блока должна быть 100%
+        * По достижении 100% появится скролл
+        * Блок позиционируется внизу родительского блока
+        */
+        .container_Scrollbottom {
+            padding: 0 10px;
+            max-height: 100%;
+            overflow-y: auto;
+        }
+
+        /**
+        * Пока нет сообщением показываем это
+        */
+        .messages:empty::before {
+            content: 'Нет сообщений';
+            display: block;
+            padding: 20px;
+            text-align: center;
+            color: gray;
+        }
+
+        /**
+        * Оформляем немного наши сообщения
+        */
+        .message {
+            border: 1px solid #d0d0d0;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: beige;
+        }
+
+        .left {
+            text-align: left;
+            word-wrap: break-word;
+        }
+        .styleforinput{
+            margin-left:41.2rem;
+        }
+    </style>
 </head>
 <body>
-    <h2>Чат-комната</h2>
+    <center>
+        <h2>Чат-комната</h2>
 
-    <div class="main">
-        <div id="loginBlock">
-            Введите логин:<br />
-            <input id="txtUserName" type="text" />
-            <input id="btnLogin" type="button" value="Войти" />
-        </div>
+        <div>
+            <div id="loginBlock">
+                Введите логин:<br />
+                <input id="txtUserName" type="text" />
+                <input id="btnLogin" type="button" value="Войти" />
+            </div>
             <div id="chatBody">
                 <div id="header"></div>
-                <div id="inputForm">
-                    <input type="text" id="message" />
-                    <input type="button" id="sendmessage" value="Отправить" />
-                </div>
-                <div id="chatroom"></div>
 
+                <div class="wrap_Scrollbottom">
+                    <div class="container_Scrollbottom" id="containerScroll">
+                        <div class="messages left" id="chatContent"></div>
+                        <div class="wrapper_Scrollbottom"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 styleforinput" >
+                        <input type="text" class="form-control" id="message" placeholder="Написать сообщение...">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary" id="sendmessage" style="margin-right:650px">Отправить</button>
+                    </div>
+                </div>
+            </div>
                 <div id="chatusers">
                     <p><b>Все пользователи</b></p>
                 </div>
-            </div>
+         </div>
 
             <input id="hdId" type="hidden" />
             <input id="username" type="hidden" />
-
-    </div>
+    </center>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <!--Ссылка на библиотеку SignalR -->
     <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
     <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
     <script src="~/signalr/hubs"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="~/Scripts/util.js"></script>
 </body>
 </html>
