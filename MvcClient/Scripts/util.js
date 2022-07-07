@@ -1,5 +1,4 @@
 ﻿$(function () {
-
     $('#chatBody').hide();
     $('#loginBlock').show();
     // Ссылка на автоматически-сгенерированный прокси хаба
@@ -7,8 +6,8 @@
     // Объявление функции, которая хаб вызывает при получении сообщений
     chat.client.addMessage = function (name, message) {
         // Добавление сообщений на веб-страницу 
-        $('#chatroom').append('<p><b>' + htmlEncode(name)
-            + '</b>: ' + htmlEncode(message) + '</p>');
+        $('#chatContent').append('<div class="message">'  + name +  ': ' + message + '</div>');
+        lastMessageScroll('smooth');
     };
 
     // Функция, вызываемая при подключении нового пользователя
@@ -26,6 +25,7 @@
 
             AddUser(allUsers[i].ConnectionId, allUsers[i].Name);
         }
+        lastMessageScroll();
     }
 
     // Добавляем нового пользователя
@@ -45,10 +45,16 @@
 
         $('#sendmessage').click(function () {
             // Вызываем у хаба метод Send
+
             chat.server.send($('#username').val(), $('#message').val());
             $('#message').val('');
         });
-
+        $('#message').keydown(function (e) {
+            if (e.keyCode === 13) {
+                chat.server.send($('#username').val(), $('#message').val());
+                $('#message').val('');
+            }
+        });
         // обработка логина
         $("#btnLogin").click(function () {
 
@@ -76,4 +82,13 @@ function AddUser(id, name) {
 
         $("#chatusers").append('<p id="' + id + '"><b>' + name + '</b></p>');
     }
+}
+function lastMessageScroll(b) {
+    var e = document.querySelector('.wrapper_Scrollbottom');
+    if (!e) return;
+
+    e.scrollIntoView({
+        behavior: b || 'auto',
+        block: 'end',
+    });
 }

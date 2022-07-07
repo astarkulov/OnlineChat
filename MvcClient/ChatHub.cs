@@ -24,13 +24,13 @@ namespace MvcClient
         public void Connect(string userName)
         {
             var id = Context.ConnectionId;
-
             client.Connect(userName);
             if (!Users.Any(x => x.ConnectionId == id))
             {
+                var list = client.GetUsers();
                 foreach (var item in client.GetChats())
                 {
-                    var user = client.GetUsers().FirstOrDefault(u => u.Id == item.SenderId);
+                    var user = list.FirstOrDefault(u => u.Id == item.SenderId);
                     Clients.Caller.addMessage($"{user.Name} {item.SendTime:HH:mm:ss}", item.Content);
                 }
                 Users.Add(new User { ConnectionId = id, Name = userName });
