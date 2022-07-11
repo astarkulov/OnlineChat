@@ -8,7 +8,7 @@
         });
     });
     // Объявление функции, которая хаб вызывает при получении сообщений
-    chat.client.addMessage = function (name , sendTime, message, color) {
+    chat.client.addMessage = function (name, sendTime, message, color) {
         // Добавление сообщений на веб-страницу 
         if ($("#Username").data("value") === name) {
             $('#chatContent').append(
@@ -16,7 +16,7 @@
         }
         else
             $('#chatContent').append(
-                '<li class="clearfix"><div class="message-data"><span class="message-data-time" style="color:' + color + '">' + name + '</span></div><div class="message my-message">' + message + '<div style="color: rgb(167, 167, 167); font-size: 9pt; text-align: right;">' + sendTime + '</div>' +  '</div></li>');
+                '<li class="clearfix"><div class="message-data"><span class="message-data-time" style="color:' + color + '">' + name + '</span></div><div class="message my-message">' + message + '<div style="color: rgb(167, 167, 167); font-size: 9pt; text-align: right;">' + sendTime + '</div>' + '</div></li>');
         lastMessageScroll('smooth');
     };
 
@@ -62,7 +62,7 @@
         });
     });
 
-    
+
 });
 // Кодирование тегов
 function htmlEncode(value) {
@@ -72,8 +72,8 @@ function htmlEncode(value) {
 //Добавление нового пользователя
 function AddUser(id, name) {
     var username = $("#Username").data("value");
-    if (name !== username) {
-         $("#chatusers").append('<div class="input-group" id="' + id + '">' + name + '</div>');
+    if (name !== username && document.getElementById(id) === null) {
+        $("#chatusers").append('<div class="input-group" id="' + id + '">' + name + '</div>');
     }
 }
 function lastMessageScroll(b) {
