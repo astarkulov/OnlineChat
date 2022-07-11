@@ -1,25 +1,31 @@
 ﻿$(function () {
-    $('#chatBody').hide();
-    $('#loginBlock').show();
     // Ссылка на автоматически-сгенерированный прокси хаба
     var chat = $.connection.chatHub;
+    $(document).ready(function () {
+        $.connection.hub.start().done(function () {
+            var name = $("#Username").data("value");
+            chat.server.connect(name);
+        });
+    });
     // Объявление функции, которая хаб вызывает при получении сообщений
-    chat.client.addMessage = function (name, message) {
+    chat.client.addMessage = function (name , sendTime, message, color) {
         // Добавление сообщений на веб-страницу 
-        $('#chatContent').append('<div class="message">'  + name +  ': ' + message + '</div>');
+        if ($("#Username").data("value") === name) {
+            $('#chatContent').append(
+                '<li class="clearfix"><div class="message other-message float-right">' + message + '<div style="color: rgb(167, 167, 167); font-size: 9pt; text-align: right;">' + sendTime + '</div>' + '</div></li>');
+        }
+        else
+            $('#chatContent').append(
+                '<li class="clearfix"><div class="message-data"><span class="message-data-time" style="color:' + color + '">' + name + '</span></div><div class="message my-message">' + message + '<div style="color: rgb(167, 167, 167); font-size: 9pt; text-align: right;">' + sendTime + '</div>' +  '</div></li>');
         lastMessageScroll('smooth');
     };
 
     // Функция, вызываемая при подключении нового пользователя
-    chat.client.onConnected = function (id, userName, allUsers) {
+    chat.client.onConnected = function (id, allUsers, color) {
 
-        $('#loginBlock').hide();
-        $('#chatBody').show();
-        // установка в скрытых полях имени и id текущего пользователя
+        // установка в скрытых поле id текущего пользователя
         $('#hdId').val(id);
-        $('#username').val(userName);
-        $('#header').html('<h3>Добро пожаловать, ' + userName + '</h3>');
-
+        $('#ColorOfName').val(color);
         // Добавление всех пользователей
         for (i = 0; i < allUsers.length; i++) {
 
@@ -35,7 +41,7 @@
     }
 
     // Удаляем пользователя
-    chat.client.onUserDisconnected = function (id, userName) {
+    chat.client.onUserDisconnected = function (id) {
 
         $('#' + id).remove();
     }
@@ -45,28 +51,18 @@
 
         $('#sendmessage').click(function () {
             // Вызываем у хаба метод Send
-
-            chat.server.send($('#username').val(), $('#message').val());
+            chat.server.send($('#Username').data("value"), $('#message').val(), $('#ColorOfName').val());
             $('#message').val('');
         });
         $('#message').keydown(function (e) {
             if (e.keyCode === 13) {
-                chat.server.send($('#username').val(), $('#message').val());
+                chat.server.send($('#Username').data("value"), $('#message').val(), $('#ColorOfName').val());
                 $('#message').val('');
             }
         });
-        // обработка логина
-        $("#btnLogin").click(function () {
-
-            var name = $("#txtUserName").val();
-            if (name.length > 0) {
-                chat.server.connect(name);
-            }
-            else {
-                alert("Введите имя");
-            }
-        });
     });
+
+    
 });
 // Кодирование тегов
 function htmlEncode(value) {
@@ -75,12 +71,9 @@ function htmlEncode(value) {
 }
 //Добавление нового пользователя
 function AddUser(id, name) {
-
-    var userId = $('#hdId').val();
-
-    if (userId != id) {
-
-        $("#chatusers").append('<p id="' + id + '"><b>' + name + '</b></p>');
+    var username = $("#Username").data("value");
+    if (name !== username) {
+         $("#chatusers").append('<div class="input-group" id="' + id + '">' + name + '</div>');
     }
 }
 function lastMessageScroll(b) {

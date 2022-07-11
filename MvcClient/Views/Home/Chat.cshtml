@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+
+
+<input id="Username" type="hidden" data-value="@ViewBag.Username" />
+<input id="hdId" type="hidden" />
+<input id="ColorOfName" type="hidden" />
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card chat-app">
+                <div id="chatusers" class="people-list">
+                    <div class="input-group">
+                        Users online:
+                    </div>
+
+                </div>
+                <div class="chat">
+                    <div class="chat-header clearfix">
+                        Welcome to our chat, @ViewBag.Username
+                    </div>
+                    <div id="header"></div>
+                    <div class="chat-history">
+                        <ul id="chatContent" class="m-b-0">
+                        </ul>
+                        <div class="wrapper_Scrollbottom"></div>
+                    </div>
+                    <div class="chat-message clearfix">
+                        <div class="input-group mb-0">
+                            <input id="message"
+                                   type="text"
+                                   class="form-control"
+                                   placeholder="Enter text here..." />
+                            <button id="sendmessage" type="submit" class="btn-success">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<!--Ссылка на библиотеку SignalR -->
+<script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+<!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+<script src="~/signalr/hubs"></script>
+<script src="~/Scripts/util.js"></script>
+

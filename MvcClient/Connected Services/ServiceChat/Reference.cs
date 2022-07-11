@@ -216,10 +216,10 @@ namespace MvcClient.ServiceChat {
         System.Threading.Tasks.Task<MvcClient.ServiceChat.Chat[]> GetChatsAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Connect", ReplyAction="http://tempuri.org/IService1/ConnectResponse")]
-        void Connect(string Name);
+        bool Connect(string Name, string color);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Connect", ReplyAction="http://tempuri.org/IService1/ConnectResponse")]
-        System.Threading.Tasks.Task ConnectAsync(string Name);
+        System.Threading.Tasks.Task<bool> ConnectAsync(string Name, string color);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/SendMsg", ReplyAction="http://tempuri.org/IService1/SendMsgResponse")]
         void SendMsg(string SenderName, string Content, System.DateTime SendTime);
@@ -271,12 +271,12 @@ namespace MvcClient.ServiceChat {
             return base.Channel.GetChatsAsync();
         }
         
-        public void Connect(string Name) {
-            base.Channel.Connect(Name);
+        public bool Connect(string Name, string color) {
+            return base.Channel.Connect(Name, color);
         }
         
-        public System.Threading.Tasks.Task ConnectAsync(string Name) {
-            return base.Channel.ConnectAsync(Name);
+        public System.Threading.Tasks.Task<bool> ConnectAsync(string Name, string color) {
+            return base.Channel.ConnectAsync(Name, color);
         }
         
         public void SendMsg(string SenderName, string Content, System.DateTime SendTime) {

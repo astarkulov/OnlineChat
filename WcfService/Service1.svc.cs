@@ -11,13 +11,11 @@ using System.Text;
 
 namespace WcfService
 {
-    // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
-    // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
     public class Service1 : IService1
     {
-        public void Connect(string Name)
-        {
-            var uow = new GeneralBookUnitOfWork(new EntityContextFactory());
+        private readonly GeneralBookUnitOfWork uow = new GeneralBookUnitOfWork(new EntityContextFactory());
+        public bool Connect(string Name, string color)
+       {
             try
             {
                 uow.GetCommonRepository<User>().FindBy(x => x.Name == Name).First();
@@ -26,30 +24,27 @@ namespace WcfService
             {
                 User user = new User()
                 {
-                    Name = Name
+                    Name = Name,
+                    ColorOfName = color
                 };
                 uow.GetCommonRepository<User>().Add(user);
                 uow.GetCommonRepository<User>().Save();
-                return;
             }
+            return true;
         }
         public void SendMsg(string SenderName, string Content, DateTime SendTime)
         {
-            var uow = new GeneralBookUnitOfWork(new EntityContextFactory());
-
             var user = uow.GetCommonRepository<User>().GetAll().FirstOrDefault(u => u.Name == SenderName);
             uow.GetCommonRepository<Chat>().Add(new Chat() { SenderId = user.Id, Content = Content, SendTime = SendTime });
             uow.GetCommonRepository<Chat>().Save();
         }
-        public List<Chat> GetChats()
+        public Chat[] GetChats()
         {
-            var uow = new GeneralBookUnitOfWork(new EntityContextFactory());
-            return uow.GetCommonRepository<Chat>().GetAll().ToList();
+            return uow.GetCommonRepository<Chat>().Context.Set<Chat>().Include("User").ToArray();
         }
 
         public List<User> GetUsers()
         {
-            var uow = new GeneralBookUnitOfWork(new EntityContextFactory());
             return uow.GetCommonRepository<User>().GetAll().ToList();
         }
     }

@@ -14,9 +14,9 @@ namespace WcfService
         [OperationContract]
         List<User> GetUsers();
         [OperationContract]
-        List<Chat> GetChats();
+        Chat[] GetChats();
         [OperationContract]
-        void Connect(string Name);
+        bool Connect(string Name, string color);
         [OperationContract]
         void SendMsg(string SenderName, string Content, DateTime SendTime);
 

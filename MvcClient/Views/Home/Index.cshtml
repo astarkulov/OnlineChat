@@ -1,110 +1,31 @@
-﻿@{
-    Layout = null;
+﻿@model MvcClient.ServiceChat.User
+
+@{
+    ViewBag.Title = "Index";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        /**
-        * Высота основного блока фиксированная
-        * Flexbox с позиционированием контента внизу блока
-        */
-        .wrap_Scrollbottom {
-            width: 600px;
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            border: 1px solid #b9b9b9;
-            position: relative;
-        }
 
-        /**
-        * Максимальная высота этого блока должна быть 100%
-        * По достижении 100% появится скролл
-        * Блок позиционируется внизу родительского блока
-        */
-        .container_Scrollbottom {
-            padding: 0 10px;
-            max-height: 100%;
-            overflow-y: auto;
-        }
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-        /**
-        * Пока нет сообщением показываем это
-        */
-        .messages:empty::before {
-            content: 'Нет сообщений';
-            display: block;
-            padding: 20px;
-            text-align: center;
-            color: gray;
-        }
-
-        /**
-        * Оформляем немного наши сообщения
-        */
-        .message {
-            border: 1px solid #d0d0d0;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: beige;
-        }
-
-        .left {
-            text-align: left;
-            word-wrap: break-word;
-        }
-        .styleforinput{
-            margin-left:41.2rem;
-        }
-    </style>
-</head>
-<body>
-    <center>
-        <h2>Чат-комната</h2>
-
-        <div>
-            <div id="loginBlock">
-                Введите логин:<br />
-                <input id="txtUserName" type="text" />
-                <input id="btnLogin" type="button" value="Войти" />
-            </div>
-            <div id="chatBody">
-                <div id="header"></div>
-
-                <div class="wrap_Scrollbottom">
-                    <div class="container_Scrollbottom" id="containerScroll">
-                        <div class="messages left" id="chatContent"></div>
-                        <div class="wrapper_Scrollbottom"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3 styleforinput" >
-                        <input type="text" class="form-control" id="message" placeholder="Написать сообщение...">
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary" id="sendmessage" style="margin-right:650px">Отправить</button>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <div class="mb-md-5 mt-md-4 pb-5">
+                        <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                        <p class="text-white-50 mb-5">Please enter your username!</p>
+                        <div class="form-outline form-white mb-4">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control form-control-lg" , @id = "txtUserName" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            <label class="form-label" for="username">Username</label>
+                        </div>
+                        <button id="btnLogin" class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
                     </div>
                 </div>
             </div>
-                <div id="chatusers">
-                    <p><b>Все пользователи</b></p>
-                </div>
-         </div>
-
-            <input id="hdId" type="hidden" />
-            <input id="username" type="hidden" />
-    </center>
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <!--Ссылка на библиотеку SignalR -->
-    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
-    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
-    <script src="~/signalr/hubs"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="~/Scripts/util.js"></script>
-</body>
-</html>
+        </div>
+    </div>
+</div>
+}

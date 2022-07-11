@@ -9,34 +9,38 @@ namespace MvcClient
 {
     public class ChatHub : Hub
     {
+        static string[] colors = new string[] { "#ff4f4f", "#ff9b4f", "#ffca4f",  "#d3ff4f",  "#4fffa1", "#4fffed", "#4fcdff", "#4fa1ff", "#4f69ff", "#904fff", "#cd4fff", "#ff4ff9", "#ff4fb3" };
         static List<User> Users = new List<User>();
-        ServiceChat.Service1Client client = new ServiceChat.Service1Client();
+        static Random rnd = new Random();
+        readonly ServiceChat.Service1Client client = new ServiceChat.Service1Client();
 
         // Отправка сообщений
-        public void Send(string name, string message)
+        public void Send(string name, string message, string color)
         {
-            DateTime time = DateTime.Now;
-            client.SendMsg(name, message, time);
-            Clients.All.addMessage($"{name} {time:HH:mm:ss}", message);
+            if(message != "")
+            {
+                DateTime time = DateTime.Now;
+                client.SendMsg(name, message, time);
+                Clients.All.addMessage(name, $"{time:HH:mm}", message, color);
+            }
         }
 
         // Подключение нового пользователя
         public void Connect(string userName)
         {
             var id = Context.ConnectionId;
-            client.Connect(userName);
+            var color = colors[rnd.Next(0, 12)];
+            client.Connect(userName, color);
             if (!Users.Any(x => x.ConnectionId == id))
             {
-                var list = client.GetUsers();
                 foreach (var item in client.GetChats())
                 {
-                    var user = list.FirstOrDefault(u => u.Id == item.SenderId);
-                    Clients.Caller.addMessage($"{user.Name} {item.SendTime:HH:mm:ss}", item.Content);
+                    Clients.Caller.addMessage(item.User.Name, $"{item.SendTime:HH:mm}", item.Content, item.User.ColorOfName);
                 }
-                Users.Add(new User { ConnectionId = id, Name = userName });
+                Users.Add(new User { ConnectionId = id, Name = userName }); ;
 
                 // Посылаем сообщение текущему пользователю
-                Clients.Caller.onConnected(id, userName, Users);
+                Clients.Caller.onConnected(id, Users, color);
 
                 // Посылаем сообщение всем пользователям, кроме текущего
                 Clients.AllExcept(id).onNewUserConnected(id, userName);
@@ -51,7 +55,7 @@ namespace MvcClient
             {
                 Users.Remove(item);
                 var id = Context.ConnectionId;
-                Clients.All.onUserDisconnected(id, item.Name);
+                Clients.All.onUserDisconnected(id);
             }
 
             return base.OnDisconnected(stopCalled);
