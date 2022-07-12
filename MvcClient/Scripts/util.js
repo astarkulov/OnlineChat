@@ -34,13 +34,16 @@
     }
 
     // Добавляем нового пользователя
-    chat.client.onNewUserConnected = function (id, name, allusers) {
+    chat.client.onNewUserConnected = function (name) {
         users.addUser(name);
     }
 
     // Удаляем пользователя
     chat.client.onUserDisconnected = function (id, name) {
         users.removeUser(name);
+    }
+    chat.client.clear = function () {
+        $("#chatContent").empty();
     }
 
     // Открываем соединение
@@ -57,8 +60,11 @@
                 $('#message').val('');
             }
         });
+        $('#clearTheHistory').click(function () {
+            chat.server.clear();
+        });
     });
-
+    
 
 });
 // Кодирование тегов

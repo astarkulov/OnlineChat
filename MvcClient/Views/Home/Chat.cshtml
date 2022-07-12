@@ -25,6 +25,7 @@
                 <div class="chat">
                     <div class="chat-header clearfix">
                         Welcome to our chat, @ViewBag.Username
+                        <div id="clearTheHistory" class="btn btn-danger" style="position: absolute; right: 0; margin-bottom:10px; margin-right:10px;">Clear the history</div>
                     </div>
                     <div id="header"></div>
                     <div class="chat-history">
@@ -63,6 +64,9 @@
             self.users.remove(function (user) {
                 return user.name == Name;
             });
+        }
+        self.indexOfUser = function (Name) {
+            return self.users.indexOf(Name);
         }
     }
 

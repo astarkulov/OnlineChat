@@ -9,7 +9,7 @@ namespace MvcClient.Controllers
 {
     public class HomeController : Controller
     {
-        readonly ServiceChat.Service1Client client = new ServiceChat.Service1Client();
+        readonly ServiceChat.ChatServiceClient client = new ServiceChat.ChatServiceClient();
         public ActionResult Chat()
         {
             if (Session["LoginUser"] == null || string.IsNullOrEmpty(Session["LoginUser"].ToString()))

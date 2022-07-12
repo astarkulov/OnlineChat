@@ -103,9 +103,6 @@ namespace MvcClient.ServiceChat {
         private string ContentField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime SendTimeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -133,19 +130,6 @@ namespace MvcClient.ServiceChat {
                 if ((object.ReferenceEquals(this.ContentField, value) != true)) {
                     this.ContentField = value;
                     this.RaisePropertyChanged("Content");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
                 }
             }
         }
@@ -200,58 +184,64 @@ namespace MvcClient.ServiceChat {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceChat.IService1")]
-    public interface IService1 {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceChat.IChatService")]
+    public interface IChatService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetUsers", ReplyAction="http://tempuri.org/IService1/GetUsersResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/GetUsers", ReplyAction="http://tempuri.org/IChatService/GetUsersResponse")]
         MvcClient.ServiceChat.User[] GetUsers();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetUsers", ReplyAction="http://tempuri.org/IService1/GetUsersResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/GetUsers", ReplyAction="http://tempuri.org/IChatService/GetUsersResponse")]
         System.Threading.Tasks.Task<MvcClient.ServiceChat.User[]> GetUsersAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetChats", ReplyAction="http://tempuri.org/IService1/GetChatsResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/GetChats", ReplyAction="http://tempuri.org/IChatService/GetChatsResponse")]
         MvcClient.ServiceChat.Chat[] GetChats();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetChats", ReplyAction="http://tempuri.org/IService1/GetChatsResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/GetChats", ReplyAction="http://tempuri.org/IChatService/GetChatsResponse")]
         System.Threading.Tasks.Task<MvcClient.ServiceChat.Chat[]> GetChatsAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Connect", ReplyAction="http://tempuri.org/IService1/ConnectResponse")]
-        bool Connect(string Name, string color);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/Connect", ReplyAction="http://tempuri.org/IChatService/ConnectResponse")]
+        void Connect(string Name, string color);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Connect", ReplyAction="http://tempuri.org/IService1/ConnectResponse")]
-        System.Threading.Tasks.Task<bool> ConnectAsync(string Name, string color);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/Connect", ReplyAction="http://tempuri.org/IChatService/ConnectResponse")]
+        System.Threading.Tasks.Task ConnectAsync(string Name, string color);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/SendMsg", ReplyAction="http://tempuri.org/IService1/SendMsgResponse")]
-        void SendMsg(string SenderName, string Content, System.DateTime SendTime);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/SaveMsg", ReplyAction="http://tempuri.org/IChatService/SaveMsgResponse")]
+        void SaveMsg(string SenderName, string Content, System.DateTime SendTime);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/SendMsg", ReplyAction="http://tempuri.org/IService1/SendMsgResponse")]
-        System.Threading.Tasks.Task SendMsgAsync(string SenderName, string Content, System.DateTime SendTime);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/SaveMsg", ReplyAction="http://tempuri.org/IChatService/SaveMsgResponse")]
+        System.Threading.Tasks.Task SaveMsgAsync(string SenderName, string Content, System.DateTime SendTime);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/ClearTheHistory", ReplyAction="http://tempuri.org/IChatService/ClearTheHistoryResponse")]
+        void ClearTheHistory();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/ClearTheHistory", ReplyAction="http://tempuri.org/IChatService/ClearTheHistoryResponse")]
+        System.Threading.Tasks.Task ClearTheHistoryAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IService1Channel : MvcClient.ServiceChat.IService1, System.ServiceModel.IClientChannel {
+    public interface IChatServiceChannel : MvcClient.ServiceChat.IChatService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class Service1Client : System.ServiceModel.ClientBase<MvcClient.ServiceChat.IService1>, MvcClient.ServiceChat.IService1 {
+    public partial class ChatServiceClient : System.ServiceModel.ClientBase<MvcClient.ServiceChat.IChatService>, MvcClient.ServiceChat.IChatService {
         
-        public Service1Client() {
+        public ChatServiceClient() {
         }
         
-        public Service1Client(string endpointConfigurationName) : 
+        public ChatServiceClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public Service1Client(string endpointConfigurationName, string remoteAddress) : 
+        public ChatServiceClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public Service1Client(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public ChatServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public Service1Client(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public ChatServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
@@ -271,20 +261,28 @@ namespace MvcClient.ServiceChat {
             return base.Channel.GetChatsAsync();
         }
         
-        public bool Connect(string Name, string color) {
-            return base.Channel.Connect(Name, color);
+        public void Connect(string Name, string color) {
+            base.Channel.Connect(Name, color);
         }
         
-        public System.Threading.Tasks.Task<bool> ConnectAsync(string Name, string color) {
+        public System.Threading.Tasks.Task ConnectAsync(string Name, string color) {
             return base.Channel.ConnectAsync(Name, color);
         }
         
-        public void SendMsg(string SenderName, string Content, System.DateTime SendTime) {
-            base.Channel.SendMsg(SenderName, Content, SendTime);
+        public void SaveMsg(string SenderName, string Content, System.DateTime SendTime) {
+            base.Channel.SaveMsg(SenderName, Content, SendTime);
         }
         
-        public System.Threading.Tasks.Task SendMsgAsync(string SenderName, string Content, System.DateTime SendTime) {
-            return base.Channel.SendMsgAsync(SenderName, Content, SendTime);
+        public System.Threading.Tasks.Task SaveMsgAsync(string SenderName, string Content, System.DateTime SendTime) {
+            return base.Channel.SaveMsgAsync(SenderName, Content, SendTime);
+        }
+        
+        public void ClearTheHistory() {
+            base.Channel.ClearTheHistory();
+        }
+        
+        public System.Threading.Tasks.Task ClearTheHistoryAsync() {
+            return base.Channel.ClearTheHistoryAsync();
         }
     }
 }
