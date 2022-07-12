@@ -16,7 +16,11 @@
                     <div class="input-group">
                         Users online:
                     </div>
-
+                    <ul data-bind="foreach: users">
+                        <li>
+                            <p data-bind="text: name"></p>
+                        </li>
+                    </ul>
                 </div>
                 <div class="chat">
                     <div class="chat-header clearfix">
@@ -42,7 +46,29 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js"></script>
+<script>
+    function UserViewModel() {
+        var self = this;
 
+        self.users = ko.observableArray();
+
+        self.addUser = function (Name) {
+            self.users.push({
+                name: Name
+            });
+        }
+
+        self.removeUser = function (Name) {
+            self.users.remove(function (user) {
+                return user.name == Name;
+            });
+        }
+    }
+
+    users = new UserViewModel();
+    ko.applyBindings(users);
+</script>
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <!--Ссылка на библиотеку SignalR -->

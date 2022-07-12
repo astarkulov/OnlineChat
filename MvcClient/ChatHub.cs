@@ -43,7 +43,7 @@ namespace MvcClient
                 Clients.Caller.onConnected(id, Users, color);
 
                 // Посылаем сообщение всем пользователям, кроме текущего
-                Clients.AllExcept(id).onNewUserConnected(id, userName);
+                Clients.AllExcept(id).onNewUserConnected(id, userName, Users);
             }
         }
 
@@ -53,9 +53,10 @@ namespace MvcClient
             var item = Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
             if (item != null)
             {
-                Users.Remove(item);
                 var id = Context.ConnectionId;
-                Clients.All.onUserDisconnected(id);
+                var name = Users.FirstOrDefault(x => x.ConnectionId == id).Name;
+                Users.Remove(item);
+                Clients.All.onUserDisconnected(id, name);
             }
 
             return base.OnDisconnected(stopCalled);

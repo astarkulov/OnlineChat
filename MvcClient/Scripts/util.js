@@ -28,22 +28,19 @@
         $('#ColorOfName').val(color);
         // Добавление всех пользователей
         for (i = 0; i < allUsers.length; i++) {
-
-            AddUser(allUsers[i].ConnectionId, allUsers[i].Name);
+            users.addUser(allUsers[i].Name);
         }
         lastMessageScroll();
     }
 
     // Добавляем нового пользователя
-    chat.client.onNewUserConnected = function (id, name) {
-
-        AddUser(id, name);
+    chat.client.onNewUserConnected = function (id, name, allusers) {
+        users.addUser(name);
     }
 
     // Удаляем пользователя
-    chat.client.onUserDisconnected = function (id) {
-
-        $('#' + id).remove();
+    chat.client.onUserDisconnected = function (id, name) {
+        users.removeUser(name);
     }
 
     // Открываем соединение
@@ -69,13 +66,7 @@ function htmlEncode(value) {
     var encodedValue = $('<div />').text(value).html();
     return encodedValue;
 }
-//Добавление нового пользователя
-function AddUser(id, name) {
-    var username = $("#Username").data("value");
-    if (name !== username && document.getElementById(id) === null) {
-        $("#chatusers").append('<div class="input-group" id="' + id + '">' + name + '</div>');
-    }
-}
+
 function lastMessageScroll(b) {
     var e = document.querySelector('.wrapper_Scrollbottom');
     if (!e) return;
