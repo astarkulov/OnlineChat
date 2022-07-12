@@ -12,7 +12,7 @@ namespace MvcClient
         static string[] colors = new string[] { "#ff4f4f", "#ff9b4f", "#ffca4f",  "#d3ff4f",  "#4fffa1", "#4fffed", "#4fcdff", "#4fa1ff", "#4f69ff", "#904fff", "#cd4fff", "#ff4ff9", "#ff4fb3" };
         static List<User> Users = new List<User>();
         static Random rnd = new Random();
-        readonly ServiceChat.Service1Client client = new ServiceChat.Service1Client();
+        readonly ServiceChat.ChatServiceClient client = new ServiceChat.ChatServiceClient();
 
         // Отправка сообщений
         public void Send(string name, string message, string color)
@@ -20,7 +20,7 @@ namespace MvcClient
             if(message != "")
             {
                 DateTime time = DateTime.Now;
-                client.SendMsg(name, message, time);
+                client.SaveMsg(name, message, time);
                 Clients.All.addMessage(name, $"{time:HH:mm}", message, color);
             }
         }
@@ -43,7 +43,7 @@ namespace MvcClient
                 Clients.Caller.onConnected(id, Users, color);
 
                 // Посылаем сообщение всем пользователям, кроме текущего
-                Clients.AllExcept(id).onNewUserConnected(id, userName, Users);
+                Clients.AllExcept(id).onNewUserConnected(userName);
             }
         }
 
@@ -56,10 +56,16 @@ namespace MvcClient
                 var id = Context.ConnectionId;
                 var name = Users.FirstOrDefault(x => x.ConnectionId == id).Name;
                 Users.Remove(item);
-                Clients.All.onUserDisconnected(id, name);
+                Clients.All.onUserDisconnected(name);
             }
 
             return base.OnDisconnected(stopCalled);
+        }
+
+        public void Clear()
+        {
+            client.ClearTheHistory();
+            Clients.All.clear();
         }
     }
 }

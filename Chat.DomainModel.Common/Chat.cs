@@ -11,8 +11,6 @@ namespace OnlineChat.DomainModel.Common
     public class Chat
     {
         [Key]
-        public int Id { get; set; }
-        [Required]
         public int SenderId { get; set; }
         [Required]
         public string Content { get; set; }

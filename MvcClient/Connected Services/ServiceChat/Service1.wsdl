@@ -37,12 +37,10 @@
       </xs:element>
       <xs:element name="ConnectResponse">
         <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" name="ConnectResult" type="xs:boolean" />
-          </xs:sequence>
+          <xs:sequence />
         </xs:complexType>
       </xs:element>
-      <xs:element name="SendMsg">
+      <xs:element name="SaveMsg">
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" name="SenderName" nillable="true" type="xs:string" />
@@ -51,7 +49,17 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="SendMsgResponse">
+      <xs:element name="SaveMsgResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ClearTheHistory">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ClearTheHistoryResponse">
         <xs:complexType>
           <xs:sequence />
         </xs:complexType>
@@ -122,7 +130,6 @@
       <xs:complexType name="Chat">
         <xs:sequence>
           <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Id" type="xs:int" />
           <xs:element minOccurs="0" name="SendTime" type="xs:dateTime" />
           <xs:element minOccurs="0" name="SenderId" type="xs:int" />
           <xs:element minOccurs="0" name="User" nillable="true" type="tns:User" />
@@ -131,52 +138,62 @@
       <xs:element name="Chat" nillable="true" type="tns:Chat" />
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="IService1_GetUsers_InputMessage">
+  <wsdl:message name="IChatService_GetUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUsers" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetUsers_OutputMessage">
+  <wsdl:message name="IChatService_GetUsers_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUsersResponse" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetChats_InputMessage">
+  <wsdl:message name="IChatService_GetChats_InputMessage">
     <wsdl:part name="parameters" element="tns:GetChats" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetChats_OutputMessage">
+  <wsdl:message name="IChatService_GetChats_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetChatsResponse" />
   </wsdl:message>
-  <wsdl:message name="IService1_Connect_InputMessage">
+  <wsdl:message name="IChatService_Connect_InputMessage">
     <wsdl:part name="parameters" element="tns:Connect" />
   </wsdl:message>
-  <wsdl:message name="IService1_Connect_OutputMessage">
+  <wsdl:message name="IChatService_Connect_OutputMessage">
     <wsdl:part name="parameters" element="tns:ConnectResponse" />
   </wsdl:message>
-  <wsdl:message name="IService1_SendMsg_InputMessage">
-    <wsdl:part name="parameters" element="tns:SendMsg" />
+  <wsdl:message name="IChatService_SaveMsg_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMsg" />
   </wsdl:message>
-  <wsdl:message name="IService1_SendMsg_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SendMsgResponse" />
+  <wsdl:message name="IChatService_SaveMsg_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMsgResponse" />
   </wsdl:message>
-  <wsdl:portType name="IService1">
+  <wsdl:message name="IChatService_ClearTheHistory_InputMessage">
+    <wsdl:part name="parameters" element="tns:ClearTheHistory" />
+  </wsdl:message>
+  <wsdl:message name="IChatService_ClearTheHistory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ClearTheHistoryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IChatService">
     <wsdl:operation name="GetUsers">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetUsers" message="tns:IService1_GetUsers_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetUsersResponse" message="tns:IService1_GetUsers_OutputMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/GetUsers" message="tns:IChatService_GetUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/GetUsersResponse" message="tns:IChatService_GetUsers_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetChats">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetChats" message="tns:IService1_GetChats_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetChatsResponse" message="tns:IService1_GetChats_OutputMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/GetChats" message="tns:IChatService_GetChats_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/GetChatsResponse" message="tns:IChatService_GetChats_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="Connect">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService1/Connect" message="tns:IService1_Connect_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ConnectResponse" message="tns:IService1_Connect_OutputMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/Connect" message="tns:IChatService_Connect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/ConnectResponse" message="tns:IChatService_Connect_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SendMsg">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService1/SendMsg" message="tns:IService1_SendMsg_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService1/SendMsgResponse" message="tns:IService1_SendMsg_OutputMessage" />
+    <wsdl:operation name="SaveMsg">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/SaveMsg" message="tns:IChatService_SaveMsg_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/SaveMsgResponse" message="tns:IChatService_SaveMsg_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ClearTheHistory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/ClearTheHistory" message="tns:IChatService_ClearTheHistory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/ClearTheHistoryResponse" message="tns:IChatService_ClearTheHistory_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
+  <wsdl:binding name="BasicHttpBinding_IChatService" type="tns:IChatService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetUsers">
-      <soap:operation soapAction="http://tempuri.org/IService1/GetUsers" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IChatService/GetUsers" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -185,7 +202,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetChats">
-      <soap:operation soapAction="http://tempuri.org/IService1/GetChats" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IChatService/GetChats" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -194,7 +211,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Connect">
-      <soap:operation soapAction="http://tempuri.org/IService1/Connect" style="document" />
+      <soap:operation soapAction="http://tempuri.org/IChatService/Connect" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -202,8 +219,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SendMsg">
-      <soap:operation soapAction="http://tempuri.org/IService1/SendMsg" style="document" />
+    <wsdl:operation name="SaveMsg">
+      <soap:operation soapAction="http://tempuri.org/IChatService/SaveMsg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClearTheHistory">
+      <soap:operation soapAction="http://tempuri.org/IChatService/ClearTheHistory" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -213,8 +239,8 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="Service1">
-    <wsdl:port name="BasicHttpBinding_IService1" binding="tns:BasicHttpBinding_IService1">
-      <soap:address location="http://localhost:50611/Service1.svc" />
+    <wsdl:port name="BasicHttpBinding_IChatService" binding="tns:BasicHttpBinding_IChatService">
+      <soap:address location="http://localhost:50611/ChatService.svc" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
