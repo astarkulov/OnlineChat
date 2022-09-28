@@ -15,6 +15,7 @@ namespace OnlineChat.DomainModel.Common
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+
         public string ColorOfName { get; set; }
     }
 }

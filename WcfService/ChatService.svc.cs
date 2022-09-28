@@ -4,21 +4,15 @@ using OnlineChat.DomainModel.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
 
 namespace WcfService
 {
     public class Service1 : IChatService
     {
-        
         public void Connect(string Name, string color)
         {
             using (GeneralBookUnitOfWork uow = new GeneralBookUnitOfWork(new EntityContextFactory()))
             {
-
                 try
                 {
                     uow.GetCommonRepository<User>().FindBy(x => x.Name == Name).First();
